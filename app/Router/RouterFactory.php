@@ -15,7 +15,11 @@ final class RouterFactory
 	public static function createRouter(): RouteList
 	{
 		$router = new RouteList;
-		$router->addRoute('<presenter>/<action>', 'Admin:Dashboard:default');
+		$router->addRoute('<module>/<presenter>/<action>[/<id \d+>]', [
+			'module' => 'Admin',
+			'presenter' => 'Dashboard',
+			'action' => 'default',
+		]);
 		return $router;
 	}
 }
