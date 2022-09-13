@@ -16,6 +16,11 @@ final class RouterFactory
 	{
 		$router = new RouteList;
 		$router->addRoute('<module>/<presenter>/<action>[/<id \d+>]', [
+			'module' => 'Front',
+			'presenter' => 'Homepage',
+			'action' => 'default',
+		]);
+		$router->addRoute('<module>/<presenter>/<action>[/<id \d+>]', [
 			'module' => 'Admin',
 			'presenter' => 'Dashboard',
 			'action' => 'default',
