@@ -1,7 +1,15 @@
 {block content}
-<h1 n:block=title>Přihlášení</h1>
+<div class="row ">
+    <div class="col-12 col-md-4 border border-3 border-primary rounded-5 p-3 mt-3 m-auto bg-light">
+    <div class="text-center">
+        <h1 n:block=title>Přihlášení</h1>
 
-{control signInForm}
-<br>
-Nemáte účet? Vytvořte si ho!<br>
-<a n:href="Sign:up" class="btn btn-outline-primary">Registrovat</a>
+        <div class="mb-1">{control signInForm}</div>
+
+        <a n:href="Login:in" class="btn btn-danger p-2 m-1"><img src="{$basePath}/images/google-ico.png" width="30px"> Příhlásit pomocí Google</a>
+        <br>
+        Nemáte účet? Vytvořte si ho!<br>
+        <a n:href="Sign:up" class="btn btn-outline-primary">Registrovat</a>
+    </div>
+    </div>
+</div>

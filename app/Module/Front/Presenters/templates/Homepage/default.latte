@@ -1,2 +1,23 @@
 {block content}
-<h1>hello<h1>
+<div class="username bg-dark sticky-top">
+<h1 class="text-center text-white m-0 pb-1 mb-2">Uživatelé</h1>
+</div>
+
+<div class="row m-1">
+    {foreach $users as $profile}
+        <div class="post col-12 col-md-4 border border-primary rounded-3 p-2 mb-1">			
+		    <h2><a n:href="User:detail $profile->id">{$profile->username}</a></h2>
+    {if $profile->sub}
+    {* obrázek existuje *}
+    <img src="{$profile->picture}" alt="google avatar" class="avatar-mini rounded-3 float-start" >
+
+    {elseif $profile->picture}
+    <img src="{$basePath}/{$profile->picture}" alt="{$profile->picture}" class="avatar-mini rounded-3 float-start" >
+    {else}
+    {* obrázek nemá příspěvek *}
+
+    <img src="{$basePath}/picture/generic_avatar.jpg" class="avatar-mini rounded-3 float-start">
+    {/if}
+		    <br/>
+	    </div>
+    {/foreach}

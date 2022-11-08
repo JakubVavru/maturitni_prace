@@ -1,0 +1,82 @@
+{block content}
+<div class="d-none">
+{$height_m = $users->height / 100} 
+{$foodkcal = 0}{$sportkcal = 0} 
+{foreach $sports as $sport}{$sportkcal = $sportkcal + $sport->kcal}{/foreach} 
+{foreach $foods as $food}{$foodkcal = $foodkcal + $food->kcal}{/foreach} 
+</div>
+<div class="username bg-dark sticky">
+<h1 class="text-center text-white m-0 pb-1 mb-2">{$users->username}</h1>
+</div>
+<div class="row m-0">
+    <div class="col-12 col-md-4 border border-primary rounded-3 p-3 mb-1"><h2>Weight: {$users->weight} </h2></div>
+    {if $users->weight}
+    <div class="col-12 col-md-4 border border-primary rounded-3 p-3 mb-1"><h2>BMI: {round( $users->weight / ( $height_m * $height_m ), 1)} </h2></div>
+    {else}
+    <div class="col-12 col-md-4 border border-primary rounded-3 p-3 mb-1"><h2>BMI: Nelze vypočítat </h2></div>
+    {/if}
+    <div class="col-12 col-md-4 border border-primary rounded-3 p-3 mb-1 float-end"><h2>Height: {$users->height} </h2></div>
+</div>
+<div class="row m-1">
+   <div class="col p-0">
+    <table class="sport-food">
+        <tr class="food">
+            <th class="food">Příjem</th>
+        </tr>
+    {foreach $foods as $food}
+        <tr class="food">
+            <th class="food">
+            <strong>{$food->food}</strong><br>
+            + {$food->kcal} kcal
+            </th>
+        </tr>
+    {/foreach}
+    </table>
+    </div>
+    <div class="col p-0">
+    <table class="sport-food">
+        <tr class="sport">
+            <th class="sport">Výdej</th>
+        </tr>
+    {foreach $sports as $sport}
+         <tr class="sport">
+            <th class="sport">
+            <strong>{$sport->sport}</strong><br>
+            - {$sport->kcal} kcal
+            </th>
+         </tr>   
+    {/foreach}
+    </table>
+    </div>
+    
+    
+<div class="col">
+<canvas id="energyChart"></canvas>
+</div>
+</div>
+<script>
+var xValues = [ "Výdej", "Příjem"];
+var yValues = [ {$sportkcal}, {$foodkcal}];
+var barColors = [
+  "#00aeff",
+  "#ffd000",
+];
+
+
+new Chart("energyChart", {
+  type: "doughnut",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: false,
+      text: ""
+    }
+  }
+});
+</script>

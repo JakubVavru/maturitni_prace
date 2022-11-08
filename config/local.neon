@@ -1,5 +1,7 @@
 parameters:
-
+	google:
+		clientId: 318255139397-j9u65p251h79jnjn0m132544ree1j74e.apps.googleusercontent.com
+		clientSecret: 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
 
 database:
 	dsn: 'mysql:host=127.0.0.1;dbname=maturitni_prace'

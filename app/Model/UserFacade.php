@@ -20,10 +20,14 @@ final class UserFacade implements Nette\Security\Authenticator
 	private const
 		TableName = 'users',
 		ColumnId = 'id',
+		ColumnSub = 'sub',
 		ColumnName = 'username',
+		ColumnPicture = 'picture',
 		ColumnPasswordHash = 'password',
 		ColumnEmail = 'email',
-		ColumnRole = 'role';
+		ColumnRole = 'role',
+		ColumnWeight = 'weight',
+		ColumnHeight = 'height';
 
 
 	private Nette\Database\Explorer $database;
@@ -83,6 +87,47 @@ final class UserFacade implements Nette\Security\Authenticator
 			throw new DuplicateNameException;
 		}
 	}
+	public function getAll()
+	{
+		return $this->database
+			->table('users');
+	}
+	public function getUserById(int $userId)
+	{
+		$user = $this->database
+				 ->table('users')
+				 ->get($userId);
+		return $user;
+		bdump($userId);
+	}
+	public function update(int $userId, \stdClass $data)
+	{
+		if ($data->password == null) {
+			$this->database->table(self::TableName)->get(['id'=>$userId])->update([
+			self::ColumnName => $data->username,
+			self::ColumnEmail => $data->email,
+		]);
+		} else {
+			$this->database->table(self::TableName)->get(['id'=>$userId])->update([
+			self::ColumnName => $data->username,
+			self::ColumnEmail => $data->email,
+			self::ColumnPasswordHash => $this->passwords->hash($data->password),
+		]);
+		}}
+		public function updateStat(int $userId, \stdClass $data)
+		{
+				$this->database->table(self::TableName)->get(['id'=>$userId])->update([
+				self::ColumnWeight => $data->weight,
+				self::ColumnHeight => $data->height,
+			]);
+		}
+		public function updatePicture(int $userId, \stdClass $data)
+		{
+				$this->database->table(self::TableName)->get(['id'=>$userId])->update([
+				self::ColumnPicture => $data->picture
+			]);
+		}
+	
 }
 
 

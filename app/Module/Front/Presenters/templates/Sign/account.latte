@@ -1,5 +1,75 @@
-{block content}
+{block content}<div class="d-none">{$height_m = $users->height / 100}</div>
+<div class="username bg-dark sticky-top">
+<h1 class="text-center text-white m-0 pb-1 mb-2"><a n:href="User:detail $users->id">{$users->username}</a></h1> 
+</div>
+<div class="row">
 
-<h1 n:block=title>Váš účet</h1>
+<div class="col">
+{control statForm}
+    {if $users->weight}
+    <strong>BMI: {round( $users->weight / ( $height_m * $height_m ), 1)} </strong><br>
+    {else}
+    <strong>BMI: Nelze vypočítat </strong><br>
+    {/if}
+</div>
+<div class="text-center col">
+    {if $users->sub}
+    {* obrázek existuje *}
+    <img src="{$users->picture}" alt="google avatar" class="avatar rounded-3" >
 
-{control changeForm}
+    {elseif $users->picture}
+    <img src="{$basePath}/{$users->picture}" alt="{$users->picture}" class="avatar rounded-3" >
+    {else}
+    {* obrázek nemá příspěvek *}
+
+    <img src="{$basePath}/picture/generic_avatar.jpg" class="avatar rounded-3">
+    {/if}
+{control pictureForm}
+</div>
+<div class="col">
+<div class="dropdown float-end me-3">
+  <button onclick="changeAccountFun()" class="btn btn-info">Změnit údaje účtu</button>
+  <div id="changeAccount" class="dropdown-content">
+    {control changeForm}
+  </div>
+  </div>  
+</div>
+</div>
+<div class="row">
+<div class="col border border-danger rounded-3 p-1 bg-warning w-33 float-start">
+{control foodForm}
+
+</div>
+
+<div class="col">
+</div>
+<div class="col border border-primary rounded-3 p-1 bg-info w-33 float-end">
+{control sportForm} 
+</div>
+</div>
+</div>
+<div n:foreach="$flashes as $flash" n:class="alert, 'message-' . $flash->type"><strong>{$flash->message}</strong></div>
+
+
+<!--script na dropdown-->
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function changeAccountFun() {
+  document.getElementById("changeAccount").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+/*window.onclick = function(event) {
+  if (!event.target.matches('.btn-info')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+} */
+</script>

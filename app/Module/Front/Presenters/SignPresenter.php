@@ -5,29 +5,29 @@ declare(strict_types=1);
 namespace App\Module\Front\Presenters;
 
 use Nette;
-use App\Model\UserFacade;
 use Nette\Application\UI\Form;
 
-final class SignPresenter extends Nette\Application\UI\Presenter
+final class SignPresenter extends EnergyPresenter
 {
-	private UserFacade $userFacade;
-
-	public function __construct(UserFacade $userFacade)
+	public function renderAccount(): void
 	{
-		$this->userFacade = $userFacade;
+        $users = $this->getUser()->getIdentity();
+        $this->template->users = $users;
 	}
-
-	protected function createComponentSignInForm(): Form
+	//Přihlašovací formulář
+	protected function createComponentSignInForm(): Form 
 	{
 		$form = new Form;
-		$form->addText('username', 'Uživatelské jméno:')
-			->setRequired('Prosím vyplňte své uživatelské jméno.');
+		$form->addText('username', '')
+			->setRequired('Prosím vyplňte své uživatelské jméno.')
+			->setHtmlAttribute('placeholder', 'Uživatelské jméno');
 
-		$form->addPassword('password', 'Heslo:')
-			->setRequired('Prosím vyplňte své heslo.');
+		$form->addPassword('password', '')
+			->setRequired('Prosím vyplňte své heslo.')
+			->setHtmlAttribute('placeholder', 'Heslo');
 
 		$form->addSubmit('send', 'Přihlásit')
-			->setHtmlAttribute('class', 'btn btn-primary');
+			->setHtmlAttribute('class', 'btn btn-primary m-auto');
 
 		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 		return $form;
@@ -41,25 +41,30 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 			$form->addError('Nesprávné přihlašovací jméno nebo heslo.');
 		}
 	}
-	public function actionOut(): void
+	//Funkce odhlášení
+	public function actionOut(): void 
 	{
 		$this->getUser()->logout();
-		$this->flashMessage('Odhlášení bylo úspěšné.');
 		$this->redirect('Homepage:');
 	}
-	public function createComponentRegisterForm(): Form
+	//Registrační Formulář
+	public function createComponentRegisterForm(): Form 
 	{
 		$form = new Form;
-		$form->addText('username', 'Uživatelské jméno:')
-			->setRequired('Prosím vyplňte nové uživatelské jméno.');
+		$form->addText('username', '')
+			->setRequired('Prosím vyplňte nové uživatelské jméno.')
+			->setHtmlAttribute('placeholder', 'Uživatelské jméno');
 
-		$form->addEmail('email', 'Email:')
-			->setRequired('Prosím vyplňte nové heslo.');
+		$form->addEmail('email', '')
+			->setRequired('Prosím vyplňte nové heslo.')
+			->setHtmlAttribute('placeholder', 'Email');
 
-		$form->addPassword('password', 'Heslo:')
-			->setRequired('Prosím vyplňte nové heslo.');
+		$form->addPassword('password', '')
+			->setRequired('Prosím vyplňte nové heslo.')
+			->setHtmlAttribute('placeholder', 'Heslo');
 
-		$form->addSubmit('send', 'Registrovat');
+		$form->addSubmit('send', 'Registrovat')
+			->setHtmlAttribute('class', 'btn btn-primary m-auto');
 
 		$form->onSuccess[] = [$this, 'registerFormSucceeded'];
 		return $form;
@@ -68,12 +73,12 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 	public function registerFormSucceeded(Form $form, \stdClass $data)
 	{
 		$this->userFacade->add($data->username, $data->email, $data->password);
-
+		$this->getUser()->login($data->username, $data->password);
 		$this->flashMessage('Registrace úspěšná.', 'success');
 		$this->redirect('Homepage:default');
 	}
-
-	public function createComponentChangeForm(): Form
+	// Formulář na změnu přihlašovacích údajů
+	public function createComponentChangeForm(): Form //Upravení profilu
 	{
 
 		$user = $this->getUser()->getIdentity();
@@ -98,4 +103,54 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 		$this->flashMessage('Změna úspěšná.', 'success');
 		$this->redirect('Homepage:default');
 	}
+	// Formulář na změnu váhy a výšky
+	public function createComponentStatForm() : Form
+	{
+		$user = $this->getUser()->getIdentity();
+		bdump($user);
+		$form = new Form;
+		$form->addInteger('weight', 'Váha: ')
+			->setDefaultValue($user->data['weight'])
+			->setHtmlAttribute('class', 'form-short text-center');;
+		$form->addInteger('height', 'Výška')
+			->setDefaultValue($user->data['height'])
+			->setHtmlAttribute('class', 'form-short text-center');
+		$form->addSubmit('send', 'Uložit')
+			->setHtmlAttribute('class', 'btn btn-primary');
+		$form->onSuccess[] = [$this, 'statFormSucceeded'];
+		return $form;
+	}
+	public function statFormSucceeded(Form $form, \stdClass $data)
+	{
+		$this->userFacade->updateStat($this->getUser()->getId(), $data);
+	}
+
+	
+	public function createComponentPictureForm() : Form
+	{
+		$user = $this->getUser()->getIdentity();
+		bdump($user);
+		$form = new Form;
+		$form->addUpload('picture', '')
+			->addRule(Form::IMAGE, 'Thumbnail must be JPEG, PNG or GIF')
+			->setHtmlAttribute('class', 'btn btn-primary');
+		$form->addSubmit('send', 'Uložit')
+			->setHtmlAttribute('class', 'btn btn-primary');
+		$form->onSuccess[] = [$this, 'pictureFormSucceeded'];
+		return $form;
+	}
+	public function pictureFormSucceeded(Form $form, \stdClass $data)
+	{
+		if ($data->picture->isOK()) {
+			$data->picture->move('picture/' . $data->picture->getSanitizedName());
+			$data->picture = ('picture/' . $data->picture->getSanitizedName());
+		} else {
+			unset($data->picture);
+		}
+		$this->userFacade->updatePicture($this->getUser()->getId(), $data);
+		$this->getUser()->logout();
+	}
+
+
+	
 }

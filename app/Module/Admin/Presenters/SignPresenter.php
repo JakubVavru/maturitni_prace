@@ -24,7 +24,10 @@ final class SignPresenter extends Nette\Application\UI\Presenter
 		$this->signInFactory = $signInFactory;
 		$this->signUpFactory = $signUpFactory;
 	}
-
+	public function renderOut()
+	{
+		$this->redirect(':Front:Homepage:default');
+	}
 
 	/**
 	 * Sign-in form factory.
