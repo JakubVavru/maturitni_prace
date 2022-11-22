@@ -48,6 +48,9 @@ final class SignPresenter extends EnergyPresenter
 		$this->redirect('Homepage:');
 	}
 	//Registrační Formulář
+	/**
+	 * Registrační Formulář
+	 */
 	public function createComponentRegisterForm(): Form 
 	{
 		$form = new Form;
@@ -125,7 +128,7 @@ final class SignPresenter extends EnergyPresenter
 		$this->userFacade->updateStat($this->getUser()->getId(), $data);
 	}
 
-	
+	// formulář na změnu profilového obrázku
 	public function createComponentPictureForm() : Form
 	{
 		$user = $this->getUser()->getIdentity();

@@ -31,6 +31,7 @@
     {if $user->isLoggedIn()}
           <a n:href="Sign:out"><button type="button" class="btn btn-warning me-2">Logout</button></a>
 		      <a n:href="Sign:account"><button type="button" class="btn btn-info me-2">Account</button></a>
+          <a n:if="$user->roles[0]" n:href=":Admin:Dashboard:default"><button type="button" class="btn btn-info me-2">Admin</button></a>
 		{else}  
 		  <a n:href="Sign:in"><button type="button" class="btn btn-warning me-2">Login</button></a>
 		{/if}

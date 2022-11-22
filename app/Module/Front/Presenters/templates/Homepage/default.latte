@@ -2,10 +2,11 @@
 <div class="username bg-dark sticky-top">
 <h1 class="text-center text-white m-0 pb-1 mb-2">Uživatelé</h1>
 </div>
-
+<input type="text" id="search" placeholder="Search for names..">
 <div class="row m-1">
+
     {foreach $users as $profile}
-        <div class="post col-12 col-md-4 border border-primary rounded-3 p-2 mb-1">			
+        <div class="post col-12 col-md-4 border border-primary rounded-3 p-2 mb-1 recipe">			
 		    <h2><a n:href="User:detail $profile->id">{$profile->username}</a></h2>
     {if $profile->sub}
     {* obrázek existuje *}
@@ -21,3 +22,30 @@
 		    <br/>
 	    </div>
     {/foreach}
+
+
+    <script>
+function getReceipes() {
+  return document.getElementsByClassName('recipe');
+}
+  
+// randomDiv().style.display="inline-block";
+
+document.getElementById('search').addEventListener('keyup', function(e) {
+  var searchText = this.value.toUpperCase();
+
+  Array.from(getReceipes()).forEach(function(recipe) {
+    if (searchText.length === 0) {
+       recipe.style.display = 'block';
+    } else {
+      var nameElement = recipe.getElementsByTagName('h2')[0];
+      var txtValue = nameElement.textContent || nameElement.innerText;
+      if (txtValue.toUpperCase().indexOf(searchText) > -1) {
+        recipe.style.display = 'inline-block';
+      } else {
+        recipe.style.display = 'none';
+      }
+    }
+  });
+});
+</script>

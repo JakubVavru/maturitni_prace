@@ -3,6 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width">
+	<link href="{$basePath}/dist/main-configured.css" rel="stylesheet">
+  	<link href="{$basePath}/css/style.css" rel="stylesheet">
+  	<script src="{$basePath}/dist/main-configured.js"></script>
+	<script src="https://unpkg.com/naja@2/dist/Naja.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
 	<title>{ifset title}{include title|stripHtml} | {/ifset}User Login Example</title>
 
@@ -10,10 +15,22 @@
 </head>
 
 <body>
-	<div class=container>
+	<div class="container">
+    <header class="d-flex justify-content-center py-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+        <li class="nav-item"><a n:href="Sign:out">Sign out</a></li>
+        <li class="nav-item"><a href="#" class="nav-link"></a></li>
+        <li class="nav-item"><a href="#" class="nav-link"></a></li>
+        <li class="nav-item"><a href="#" class="nav-link"></a></li>
+      </ul>
+    </header>
+  </div>
+	<div class=container-fluid>
 		<div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
-
+	<h1>Administation</h1>
 		{include content}
+		
 	</div>
 
 	{block scripts}

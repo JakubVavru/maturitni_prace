@@ -43,20 +43,16 @@ final class EnergyFacade
 
     public function getSportById(int $sportId)
 	{
-		$sport = $this->database
+		return $this->database
 				 ->table('users')
 				 ->get($sportId);
-		return $sport;
-		bdump($sportId);
 	}
 
     public function getFoodById(int $foodId)
 	{
-		$food = $this->database
+		return $this->database
 				 ->table('food')
 				 ->get($foodId);
-		return $food;
-		bdump($foodId);
 	}
 
     public function insertFood($data, $userId)
