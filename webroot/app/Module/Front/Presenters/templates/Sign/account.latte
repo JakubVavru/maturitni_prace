@@ -1,18 +1,10 @@
 {block content}<div class="d-none">{$height_m = $users->height / 100}</div>
-<div class="username bg-dark sticky-top">
+<div class="username ticky-top">
 <h1 class="text-center text-white m-0 pb-1 mb-2"><a n:href="User:detail $users->id">{$users->username}</a></h1> 
 </div>
-<div class="row">
+<div class="row m-0">
 
 <div class="col">
-{control statForm}
-    {if $users->weight}
-    <strong>BMI: {round( $users->weight / ( $height_m * $height_m ), 1)} </strong><br>
-    {else}
-    <strong>BMI: Nelze vypočítat </strong><br>
-    {/if}
-</div>
-<div class="text-center col">
     {if $users->sub}
     {* obrázek existuje *}
     <img src="{$users->picture}" alt="google avatar" class="avatar rounded-3" >
@@ -26,8 +18,18 @@
     {/if}
 {control pictureForm}
 </div>
+
 <div class="col">
-<div class="dropdown float-end me-3">
+{control statForm}
+    {if $users->weight}
+    <strong>BMI: {round( $users->weight / ( $height_m * $height_m ), 1)} </strong><br>
+    {else}
+    <strong>BMI: Nelze vypočítat </strong><br>
+    {/if}
+</div>
+
+<div class="col">
+<div class="dropdown float-end">
   <button onclick="changeAccountFun()" class="btn btn-info">Změnit údaje účtu</button>
   <div id="changeAccount" class="dropdown-content">
     {control changeForm}
@@ -35,15 +37,15 @@
   </div>  
 </div>
 </div>
-<div class="row">
-<div class="col border border-danger rounded-3 p-1 bg-warning w-33 float-start">
+<div class="row m-0">
+<div class="col border border-danger rounded-3 p-1 bg-warning float-start">
 {control foodForm}
 
 </div>
 
 <div class="col">
 </div>
-<div class="col border border-primary rounded-3 p-1 bg-info w-33 float-end">
+<div class="col border border-primary rounded-3 p-1 bg-info float-end">
 {control sportForm} 
 </div>
 </div>

@@ -136,9 +136,9 @@ final class SignPresenter extends EnergyPresenter
 		$form = new Form;
 		$form->addUpload('picture', '')
 			->addRule(Form::IMAGE, 'Thumbnail must be JPEG, PNG or GIF')
-			->setHtmlAttribute('class', 'btn btn-primary');
+			->setHtmlAttribute('class', '');
 		$form->addSubmit('send', 'Uložit')
-			->setHtmlAttribute('class', 'btn btn-primary');
+			->setHtmlAttribute('class', '');
 		$form->onSuccess[] = [$this, 'pictureFormSucceeded'];
 		return $form;
 	}

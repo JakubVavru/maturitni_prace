@@ -20,7 +20,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 		$this->energyFacade = $energyFacade;
 	}
 
-    public function renderDefault(): void
+    public function renderList(): void
 	{
         $this->template->users = $this->userFacade->getAll();
 
