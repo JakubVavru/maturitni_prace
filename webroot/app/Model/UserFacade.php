@@ -127,6 +127,18 @@ final class UserFacade implements Nette\Security\Authenticator
 				self::ColumnPicture => $data->picture
 			]);
 		}
+
+		public function findUsers(): Nette\Database\Table\Selection
+		{
+			return $this->database->table('users')
+			->where('username')
+			->order('username');
+
+		}
+		public function getUsersCount(): int
+		{
+			return $this->database->fetchField('SELECT COUNT(*) FROM users WHERE username ORDER BY username');
+		}
 	
 }
 

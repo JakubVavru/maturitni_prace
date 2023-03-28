@@ -21,7 +21,7 @@
           {if !$presenter->isLinkCurrent("Homepage:list")}
           <li><a n:href="Homepage:list"><button class="btn-head btn-blue mt-4 ms-4">Uživatelé</button></a></li>
           {else}
-          <li><a n:href="Homepage:default"><button class="btn-head btn-blue mt-4 ms-4">Home</button></a></li>
+          <li><a n:href="Homepage:default"><button class="btn-head btn-blue mt-4 ms-4">Domů</button></a></li>
           {/if}
           <li><a n:href="Homepage:about"><button class="btn-head btn-blue mt-4 ms-3">O nás</button></a></li>
           <li><a n:href="Homepage:contact"><button class="btn-head btn-blue mt-4 ms-3">Kontakt</button></a></li>
@@ -30,16 +30,16 @@
         <div class="text-end">
     {if $user->isLoggedIn()}
     <div class="dropdown float-end">
-  <button onclick="accountFun()" class="btn-head btn-blue me-2">Account</button>
+  <button onclick="accountFun()" class="btn-head btn-blue me-2">Účet</button>
   <div id="account" class="dropdown-content">
-          <a n:href="Sign:out"><button class="btn-head btn-out m-1">Logout</button></a>
-		      <a n:href="Sign:account"><button class="btn-head btn-blue m-1">Settings</button></a>
+          <a n:href="Sign:out"><button class="btn-head btn-out m-1">Odhlásit</button></a>
+		      <a n:href="Sign:account"><button class="btn-head btn-blue m-1">Nastavení</button></a>
           <a n:if='$user->roles[0] == "admin"' n:href=":Admin:Dashboard:default"><button type="button" class="btn-head btn-blue m-1">Admin</button></a>
   </div>
   </div>
           
 		{else}  
-		  <a n:href="Sign:in"><button type="button" class="btn-head btn-in me-2">Login</button></a>
+		  <a n:href="Sign:in"><button type="button" class="btn-head btn-in me-2">Přihlásit</button></a>
 		{/if}
         </div>
       </div>

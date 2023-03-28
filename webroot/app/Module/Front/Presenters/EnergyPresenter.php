@@ -30,7 +30,8 @@ abstract class EnergyPresenter extends Nette\Application\UI\Presenter
 			->setRequired('Zadejte kalorie');
 
 		$form->addSubmit('send', 'Přidat')
-			->setHtmlAttribute('class', 'btn btn-dark');
+			->setHtmlAttribute('class', 'btn-form btn-blue')
+			->renderAsButton(True);
 
 		$form->onSuccess[] = [$this, 'sportFormSucceeded'];
 		return $form;
@@ -39,7 +40,7 @@ abstract class EnergyPresenter extends Nette\Application\UI\Presenter
 	public function sportFormSucceeded(Form $form, array $data)
 	{
 		$this->energyFacade->insertSport($data, $this->user->getId());
-		$this->flashMessage('Přidáno: '. $data['sport']. " | +" . $data['kcal'] . "kcal", "sport");
+		$this->flashMessage('Přidáno: '. $data['sport']. " | -" . $data['kcal'] . "kcal", "sport");
 	}
 
 	public function createComponentFoodForm(): Form 
@@ -52,7 +53,8 @@ abstract class EnergyPresenter extends Nette\Application\UI\Presenter
 			->setRequired('Zadejte kalorie');
 
 		$form->addSubmit('send', 'Přidat')
-			->setHtmlAttribute('class', 'btn btn-dark');
+			->setHtmlAttribute('class', 'btn-form btn-out')
+			->renderAsButton(True);
 
 		$form->onSuccess[] = [$this, 'foodFormSucceeded'];
 		return $form;

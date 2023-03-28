@@ -2,9 +2,19 @@
 <div class="username ticky-top">
 <h1 class="text-center text-white m-0 pb-1 mb-2"><a n:href="User:detail $users->id">{$users->username}</a></h1> 
 </div>
+<div class="container-custom">
 <div class="row m-0">
 
 <div class="col">
+{control statForm}
+    {if $users->weight}
+    <strong>BMI: {round( $users->weight / ( $height_m * $height_m ), 1)} </strong><br>
+    {else}
+    <strong>BMI: Nelze vypočítat </strong><br>
+    {/if}
+</div>
+
+<div class="col text-center">
     {if $users->sub}
     {* obrázek existuje *}
     <img src="{$users->picture}" alt="google avatar" class="avatar rounded-3" >
@@ -20,17 +30,8 @@
 </div>
 
 <div class="col">
-{control statForm}
-    {if $users->weight}
-    <strong>BMI: {round( $users->weight / ( $height_m * $height_m ), 1)} </strong><br>
-    {else}
-    <strong>BMI: Nelze vypočítat </strong><br>
-    {/if}
-</div>
-
-<div class="col">
 <div class="dropdown float-end">
-  <button onclick="changeAccountFun()" class="btn btn-info">Změnit údaje účtu</button>
+  <button onclick="changeAccountFun()" class="btn-form btn-blue">Údaje účtu</button>
   <div id="changeAccount" class="dropdown-content">
     {control changeForm}
   </div>
@@ -49,8 +50,9 @@
 {control sportForm} 
 </div>
 </div>
-</div>
 <div n:foreach="$flashes as $flash" n:class="alert, 'message-' . $flash->type"><strong>{$flash->message}</strong></div>
+</div>
+</div>
 
 
 <!--script na dropdown-->

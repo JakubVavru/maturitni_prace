@@ -3,24 +3,48 @@
 <h1 class="text-center text-white m-0 pb-1 mb-2">Uživatelé</h1>
 </div>
 
-<input type="text" id="search" placeholder="Search for names..">
+<input type="text" id="search" placeholder="Vyhledat jméno..">
 <div class="row m-1">
 
     {foreach $users as $profile}
-        <div class="profile w-32 rounded-1 p-2 mb-1 me-2 recipe text-center">			
-		    <h2><a n:href="User:detail $profile->id" class="cs-a">{$profile->username}</a></h2>
+    {dump $profile}
+        <div class="profile w-32 rounded-1 p-2 mb-1 me-2 recipe">			
+		    <h2 class="text-center"><a n:href="User:detail $profile->id" class="cs-a">{$profile->username}</a></h2>
     {if $profile->sub}
     {* obrázek existuje *}
-    <img src="{$profile->picture}" alt="google avatar" class="avatar-mini border border-3 border-primary rounded-4 float-start " >
+    <img src="{$profile->picture}" alt="google avatar" class="avatar-mini border border-3 border-primary rounded-4 float-start me-2" >
 
     {elseif $profile->picture}
-    <img src="{$basePath}/{$profile->picture}" alt="{$profile->picture}" class="avatar-mini border border-3 border-primary rounded-4 float-start" >
+    <img src="{$basePath}/{$profile->picture}" alt="{$profile->picture}" class="avatar-mini border border-3 border-primary rounded-4 float-start me-2" >
     {else}
-    <img src="{$basePath}/picture/generic_avatar.jpg" class="avatar-mini border border-3 border-primary rounded-4 float-start">
+    <img src="{$basePath}/picture/generic_avatar.jpg" class="avatar-mini border border-3 border-primary rounded-4 float-start me-2">
     {/if}
+    <div class="text-white">
+      Výška: {$profile->height}cm
+      <br>
+      Váha: {$profile->weight}kg
+    </div>
 		    <br/>
 	    </div>
     {/foreach}
+
+    <div class="pagination">
+	{if $page > 1}
+		<a n:href="list, 1">První</a>
+		&nbsp;|&nbsp;
+		<a n:href="list, $page - 1">Předchozí</a>
+		&nbsp;|&nbsp;
+	{/if}
+
+	Stránka {$page} z {$lastPage}
+
+	{if $page < $lastPage}
+		&nbsp;|&nbsp;
+		<a n:href="list, $page + 1">Další</a>
+		&nbsp;|&nbsp;
+		<a n:href="list, $lastPage">Poslední</a>
+	{/if}
+</div>
 
     <script>
 function getReceipes() {

@@ -11,6 +11,9 @@ final class SignPresenter extends EnergyPresenter
 {
 	public function renderAccount(): void
 	{
+		if (!$this->getUser()->isLoggedIn()) {
+			$this->redirect('Homepage:');
+		}
         $users = $this->getUser()->getIdentity();
         $this->template->users = $users;
 	}
@@ -77,7 +80,6 @@ final class SignPresenter extends EnergyPresenter
 	{
 		$this->userFacade->add($data->username, $data->email, $data->password);
 		$this->getUser()->login($data->username, $data->password);
-		$this->flashMessage('Registrace úspěšná.', 'success');
 		$this->redirect('Homepage:default');
 	}
 	// Formulář na změnu přihlašovacích údajů
@@ -103,7 +105,6 @@ final class SignPresenter extends EnergyPresenter
 
 		$this->userFacade->update($this->getUser()->getId(), $data);
 		$this->getUser()->logout();
-		$this->flashMessage('Změna úspěšná.', 'success');
 		$this->redirect('Homepage:default');
 	}
 	// Formulář na změnu váhy a výšky
@@ -119,7 +120,8 @@ final class SignPresenter extends EnergyPresenter
 			->setDefaultValue($user->data['height'])
 			->setHtmlAttribute('class', 'form-short text-center');
 		$form->addSubmit('send', 'Uložit')
-			->setHtmlAttribute('class', 'btn btn-primary');
+			->setHtmlAttribute('class', 'btn-form btn-blue')
+			->renderAsButton(True);
 		$form->onSuccess[] = [$this, 'statFormSucceeded'];
 		return $form;
 	}
@@ -138,7 +140,8 @@ final class SignPresenter extends EnergyPresenter
 			->addRule(Form::IMAGE, 'Thumbnail must be JPEG, PNG or GIF')
 			->setHtmlAttribute('class', '');
 		$form->addSubmit('send', 'Uložit')
-			->setHtmlAttribute('class', '');
+			->setHtmlAttribute('class', 'btn-form btn-in')
+			->renderAsButton(True);
 		$form->onSuccess[] = [$this, 'pictureFormSucceeded'];
 		return $form;
 	}
@@ -151,7 +154,6 @@ final class SignPresenter extends EnergyPresenter
 			unset($data->picture);
 		}
 		$this->userFacade->updatePicture($this->getUser()->getId(), $data);
-		$this->getUser()->logout();
 	}
 
 
