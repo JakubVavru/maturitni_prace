@@ -78,4 +78,20 @@ final class EnergyFacade
 			]);
 		return $sport;
 	}
+
+	public function deleteFood(int $foodId)
+	{
+		$this->database
+			->table('food')
+			->where('id', $foodId)
+			->delete();
+	}
+
+	public function deleteSport(int $sportId)
+	{
+		$this->database
+			->table('sport')
+			->where('id', $sportId)
+			->delete();
+	}
 }

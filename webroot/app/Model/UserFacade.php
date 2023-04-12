@@ -94,11 +94,13 @@ final class UserFacade implements Nette\Security\Authenticator
 	}
 	public function getUserById(int $userId)
 	{
+
 		$user = $this->database
 				 ->table('users')
-				 ->get($userId);
+				 ->select("*")
+				 ->where('id', $userId)
+				 ->fetch();
 		return $user;
-		bdump($userId);
 	}
 	public function update(int $userId, \stdClass $data)
 	{
@@ -139,6 +141,14 @@ final class UserFacade implements Nette\Security\Authenticator
 		{
 			return $this->database->fetchField('SELECT COUNT(*) FROM users WHERE username ORDER BY username');
 		}
+
+		public function deleteUser(int $id)
+	{
+		$this->database
+			->table('users')
+			->where('id', $id)
+			->delete();
+	}
 	
 }
 

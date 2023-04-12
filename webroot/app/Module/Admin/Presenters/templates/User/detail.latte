@@ -1,9 +1,17 @@
 {block content}
+{snippet delete}
+<div class="dropdown float-end">
+  <button onclick="changeAccountFun()" class="btn btn-info">Údaje účtu</button>
+  <div id="changeAccount" class="dropdown-content text-black">
+    {control changeForm}
+  </div>
+  </div> 
 <div class="d-none">
 {$height_m = $users->height / 100} 
 {$foodkcal = 0}{$sportkcal = 0} 
 {foreach $sports as $sport}{$sportkcal = $sportkcal + $sport->kcal}{/foreach} 
-{foreach $foods as $food}{$foodkcal = $foodkcal + $food->kcal}{/foreach} 
+{foreach $foods as $food}{$foodkcal = $foodkcal + $food->kcal}{/foreach}
+  
 </div>
 <h1 class="text-center m-0 pb-1 mb-2">{$users->username}</h1>
 <div class="row m-0">
@@ -15,22 +23,26 @@
     {/if}
     <div class="col-12 col-md-4 border border-primary rounded-3 p-3 mb-1 float-end"><h2>Height: {$users->height} </h2></div>
 </div>
+
 <div class="row m-1">
+
    <div class="col p-0">
     <table class="sport-food">
         <tr class="food">
             <th class="food">Příjem</th>
         </tr>
     {foreach $foods as $food}
-        <tr class="food">
+      <tr class="foods">
             <th class="food">
             <strong>{$food->food}</strong><br>
             + {$food->kcal} kcal
+            <a class="btn btn-danger ajax" n:href="deleteFood! $food->id">Smazat</a>
             </th>
         </tr>
     {/foreach}
     </table>
     </div>
+    
     <div class="col p-0">
     <table class="sport-food">
         <tr class="sport">
@@ -41,6 +53,7 @@
             <th class="sport">
             <strong>{$sport->sport}</strong><br>
             - {$sport->kcal} kcal
+            <a class="btn btn-danger ajax" n:href="deleteSport! $sport->id">Smazat</a>
             </th>
          </tr>   
     {/foreach}
@@ -53,6 +66,11 @@
 </div>
 </div>
 <script>
+
+function changeAccountFun() {
+  document.getElementById("changeAccount").classList.toggle("show");
+}
+
 var xValues = [ "Výdej", "Příjem"];
 var yValues = [ {$sportkcal}, {$foodkcal}];
 var barColors = [
@@ -78,3 +96,4 @@ new Chart("energyChart", {
   }
 });
 </script>
+{/snippet}

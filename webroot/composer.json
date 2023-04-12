@@ -26,7 +26,8 @@
 		"latte/latte": "^2.11 || ^3.0",
 		"tracy/tracy": "^2.8",
 		"league/oauth2-google": "^4.0",
-		"nepada/autocomplete-input": "^1.2"
+		"nepada/autocomplete-input": "^1.2",
+		"ublaboo/datagrid": "^6.9"
 	},
 	"autoload": {
 		"psr-4": {
