@@ -4,6 +4,6 @@ parameters:
 		clientSecret: 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
 
 database:
-	dsn: 'mysql:host=127.0.0.1;dbname=maturitni_prace'
-	user: root
-	password: root
+	dsn: 'mysql:host=127.0.0.1;dbname=mydb'
+	user: admin
+	password: password
